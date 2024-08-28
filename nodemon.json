@@ -1,0 +1,4 @@
+{
+  "watch": [".env", "*.ejs", "*.js"],
+  "ext": "js,ejs,html"
+}

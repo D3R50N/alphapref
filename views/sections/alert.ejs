@@ -1,0 +1,26 @@
+ <% if (locals.checkoutSuccess) { %>
+ <div class="checkout-alert">
+     <div class="title">
+         <span class="icon">✅</span>
+         <p>Votre abonnement a été pris en compte.</p>
+     </div>
+     <hr>
+     <p class="mb-0">Vous pouvez désormais profiter de toutes les fonctionnalités de ALPHAPREF.</p>
+ </div>
+ <% } %>
+ <% if (locals.checkoutCancel) { %>
+ <div class="checkout-alert">
+     <div class="title">
+         <span class="icon">⚠️</span>
+         <p>Impossible d'activer l'abonnement</p>
+     </div>
+     <hr>
+     <p class="mb-0">Le paiement a échoué. Veuillez réssayer.</p>
+ </div>
+ <% } %>
+
+ <% if (locals.checkoutCancel|| locals.checkoutSuccess) { %>
+ <script>
+     window.history.pushState({}, document.title, "<%= locals.redirect_url %>");
+ </script>
+ <% } %>

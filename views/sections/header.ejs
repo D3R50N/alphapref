@@ -1,0 +1,45 @@
+ <header id="ts-hero" class="ts-full-screen">
+
+     <%- include("./navbar.ejs") %>
+
+
+     <div class="container align-self-center">
+         <div class="row align-items-center">
+             <div class="col-sm-7">
+                 <h3 class="ts-opacity__50">Ne manquez plus un rendez-vous !</h3>
+                 <h1>Vos prises de rendez-vous en préfecture simplifiées</h1>
+                 <a href="#download_url" class="btn btn-light btn-lg ts-scroll">Installer ALPHAPREF</a>
+                 <% if (!locals.user?.hasActiveSubscriptions) { %>
+
+                 <form action="/checkout" method="POST" style="display: inline;">
+                     <button type="submit" id="checkout-button" class="btn btn-primary btn-lg ts-scroll ml-2">M'abonner
+                         ↗</button>
+                 </form>
+                 <% } %>
+             </div>
+             <div class="col-sm-5 d-none d-sm-block">
+                 <div class="owl-carousel text-center" data-owl-nav="1" data-owl-loop="1">
+                     <img src="/assets/img/img-phone-1st-screen_1.png"
+                         class="d-inline-block mw-100 p-md-5 p-lg-0 ts-width__auto" alt="">
+                     <img src="/assets/img/img-phone-2nd-screen_1.png"
+                         class="d-inline-block mw-100 p-md-5 p-lg-0 ts-width__auto" alt="">
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <div id="ts-dynamic-waves" class="ts-background" data-bg-color="#1a1462">
+         <svg class="ts-svg ts-parallax-element" width="100%" height="100%" version="1.1"
+             xmlns="http://www.w3.org/2000/svg">
+             <defs></defs>
+             <path class="ts-dynamic-wave" d="" data-wave-color="#dd4b5b" data-wave-height=".6" data-wave-bones="4"
+                 data-wave-speed="0.15" />
+         </svg>
+         <svg class="ts-svg" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+             <defs></defs>
+             <path class="ts-dynamic-wave" d="" data-wave-color="#fff" data-wave-height=".2" data-wave-bones="6"
+                 data-wave-speed="0.2" />
+         </svg>
+     </div>
+
+ </header>
