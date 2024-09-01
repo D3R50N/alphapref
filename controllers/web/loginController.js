@@ -32,13 +32,13 @@ exports.post = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email) {
-      return res.render("login", {
+      return res.status(400).render("login", {
         body: req.body,
         error: errors.code.EMAIL_REQUIRED,
       });
     }
     if (!password) {
-      return res.render("login", {
+      return res.status(400).render("login", {
         body: req.body,
         error: errors.code.PASSWORD_REQUIRED,
       });
@@ -46,14 +46,14 @@ exports.post = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.render("login", {
+      return res.status(400).render("login", {
         body: req.body,
         error: errors.code.USER_NOT_EXIST,
       });
     }
 
     if (!(await user.comparePassword(password))) {
-      return res.render("login", {
+      return res.status(400).render("login", {
         body: req.body,
         error: errors.code.PASSWORD_INCORRECT,
       });

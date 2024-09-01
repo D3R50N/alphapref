@@ -20,7 +20,7 @@ input:disabled{
     padding: 20px;
     background-color: #fff;
     border-radius: .4em;
-    min-height: 50vh;
+    /* min-height: 50vh; */
 
 }
 
