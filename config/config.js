@@ -42,7 +42,8 @@ module.exports = {
 
   stripePublishableKey: process.env.STRIPE_PK,
   stripeSecretKey: process.env.STRIPE_SK,
-  stripePriceID : process.env.STRIPE_PRICE_ID,
+  stripePriceID: process.env.STRIPE_PRICE_ID,
+  stripePremiumPriceID: process.env.STRIPE_PREMIUM_PRICE_ID,
 
   isDev: ["dev", "development", "develop", "test"].includes(environment),
   isProd: ["prod", "production", "release", "released"].includes(environment),

@@ -6,15 +6,21 @@
      <div class="container align-self-center">
          <div class="row align-items-center">
              <div class="col-sm-7">
-                 <h3 class="ts-opacity__50">Ne manquez plus un rendez-vous !</h3>
-                 <h1>Vos prises de rendez-vous en préfecture simplifiées</h1>
-                 <a href="#download_url" class="btn btn-light btn-lg ts-scroll">Installer ALPHAPREF</a>
+                 <h3 class="ts-opacity__50">Bienvenue sur AlphaPref,</h3>
+                 <h2>L'extension #1 en France pour une automatisation complète des prises de rendez-vous en préfecture.
+                 </h2><br>
+                 <a href="#download_url" class="btn btn-light btn-lg ts-scroll">Installer ALPHAPREF
+                      </a>
                  <% if (!locals.user?.hasActiveSubscriptions) { %>
 
-                 <form action="/checkout" method="POST" style="display: inline;">
+                 <!-- <form action="/checkout" method="POST" style="display: inline;">
                      <button type="submit" id="checkout-button" class="btn btn-primary btn-lg ts-scroll ml-2">M'abonner
                          ↗</button>
-                 </form>
+                 </form> -->
+                 <a href="#pricing" class="ts-scroll" style="display: inline;">
+                     <button type="submit" id="checkout-button" class="btn btn-primary btn-lg ts-scroll ml-2">M'abonner
+                     </button>
+                 </a>
                  <% } %>
              </div>
              <div class="col-sm-5 d-none d-sm-block">

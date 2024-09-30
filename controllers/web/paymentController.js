@@ -8,7 +8,12 @@ const config = require('../../config/config');
 
 exports.index = async (req, res) => {
   try {
+    const isPremium = req.body.o == "1";
+
     const user = await authUser(req);
+    if (user.hasActiveSubscriptions) {
+      res.redirect("back");
+    }
     const redirect = req.body.redirect || "index";
     var session = await stripe.checkout.sessions.create({
       customer: user.stripeId,
@@ -18,7 +23,7 @@ exports.index = async (req, res) => {
       line_items: [
         {
 
-          price: config.stripePriceID,
+          price: isPremium ? config.stripePremiumPriceID : config.stripePriceID,
           quantity: 1,
         },
       ],

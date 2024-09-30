@@ -25,7 +25,6 @@ app.use(bodyParser.urlencoded({ extended: true, limit: config.parserLimit }));
 // EJS Template Engine
 app.set("view engine", "ejs");
 
-
 // Routes
 app.use(ROUTES.BASE, web_routes);
 // app.use(ROUTES.API_BASE, api_routes);

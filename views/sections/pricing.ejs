@@ -3,34 +3,18 @@
         <div class="ts-title text-center">
             <h2>Tarifs Abordables</h2>
         </div>
-        <div class="row no-gutters ts-cards-same-height">
+        <div class="row no-gutters ts-cards-same-height" style="justify-content: center; gap: 1em;">
+
             <div class="col-sm-4 col-lg-4">
-                <div class="card text-center ts-price-box" data-animate="ts-fadeInUp">
-                    <div class="card-header p-0">
-                        <h5 class="mb-0 py-3 text-white" data-bg-color="#1b1464">Gratuit</h5>
-                        <div class="ts-title py-5 mb-0">
-                            <h3 class="mb-0 font-weight-normal">Gratuit</h3>
-                            <small class="ts-opacity__50">pour toujours</small>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <ul class="list-unstyled ts-list-divided">
-                            <li>Accès limité aux fonctionnalités</li>
-                            <li>Réservations manuelles uniquement</li>
-                            <li><s class="ts-opacity__50">Support prioritaire</s></li>
-                            <li><s class="ts-opacity__50">Fonctionnalités premium</s></li>
-                        </ul>
-                    </div>
-                    <div class="card-footer bg-transparent pt-0 ts-border-none">
-                        <a href="#" class="btn btn-outline-primary">Choisir</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4 col-lg-4">
-                <div class="card text-center ts-price-box ts-price-box__promoted" data-animate="ts-fadeInUp"
-                    data-delay="0.1s">
+                <div class="card text-center ts-price-box ts-price-box" data-animate="ts-fadeInUp" data-delay="0.1s">
                     <div class="card-header p-0" data-bg-color="#d96270">
-                        <h5 class="mb-0 py-3 text-white" data-bg-color="#f26d7d">Standard</h5>
+                        <h5 class="mb-0 py-3 text-white" data-bg-color="#f26d7d">Standard
+                            <% if (locals.user?.hasActiveSubscriptions&&!locals.user?.isPremium) { %>
+                            <i>(actif)</i>
+
+                            <%}%>
+
+                        </h5>
                         <div class="ts-title text-white py-5 mb-0">
                             <h3 class="mb-0 font-weight-normal">
                                 <sup>€</sup>4,99
@@ -42,37 +26,53 @@
                         <ul class="list-unstyled ts-list-divided">
                             <li>Réservations automatiques</li>
                             <li>Accès complet aux fonctionnalités</li>
-                            <li>Support standard</li>
-                            <li><s class="ts-opacity__50">Accès prioritaire</s></li>
+                            <li>Limite de <b>1</b> appareil </li>
+                            <li><s class="ts-opacity__50">Support technique</s></li>
                         </ul>
                     </div>
-                    <div class="card-footer bg-transparent pt-0 ts-border-none">
-                        <a href="#" class="btn btn-primary">Choisir</a>
-                    </div>
+                    <% if (!locals.user?.hasActiveSubscriptions) { %>
+                            <div class="card-footer bg-transparent pt-0 ts-border-none">
+
+                                <form action="/checkout" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-primary" style="width: 90%">Choisir</button>
+                                </form>
+                            </div>
+                            <%}%>
                 </div>
             </div>
             <div class="col-sm-4 col-lg-4">
                 <div class="card text-center ts-price-box" data-animate="ts-fadeInUp" data-delay="0.2s">
                     <div class="card-header p-0">
-                        <h5 class="mb-0 py-3 text-white" data-bg-color="#1b1464">Premium</h5>
+                        <h5 class="mb-0 py-3 text-white" data-bg-color="#1b1464">Premium
+                             <% if (locals.user?.hasActiveSubscriptions&&locals.user?.isPremium) { %>
+                            <i>(actif)</i>
+                            <%}%>
+                        </h5>
                         <div class="ts-title py-5 mb-0">
                             <h3 class="mb-0 font-weight-normal">
                                 <sup>€</sup>9,99
                             </h3>
-                            <small class="ts-opacity__50">par mois</small>
+                            <small class="ts-opacity__50">tous les <b>2</b> mois</small>
                         </div>
                     </div>
                     <div class="card-body p-0">
                         <ul class="list-unstyled ts-list-divided">
-                            <li>Réservations prioritaires</li>
-                            <li>Fonctionnalités avancées</li>
-                            <li>Support prioritaire</li>
-                            <li>Accès anticipé aux nouvelles fonctionnalités</li>
+                            <li>Réservations automatiques</li>
+                            <li>Accès complet aux fonctionnalités</li>
+                            <li>Limite de <b>2</b> appareils </li>
+                            <li>Support technique</li>
                         </ul>
                     </div>
-                    <div class="card-footer bg-transparent pt-0 ts-border-none">
-                        <a href="#" class="btn btn-outline-primary">Choisir</a>
-                    </div>
+                    <% if (!locals.user?.hasActiveSubscriptions) { %>
+
+                            <div class="card-footer bg-transparent pt-0 ts-border-none">
+                                <form action="/checkout" method="POST" style="display: inline;">
+                                    <input type="hidden" value="1" name="o">
+                                    <button type="submit" class="btn btn-secondary"
+                                        style="width: 90%;background: #1b1464;">Choisir</button>
+                                </form>
+                            </div>
+                            <%}%>
                 </div>
             </div>
         </div>

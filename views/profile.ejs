@@ -36,20 +36,22 @@
                     <input type="password" name="password" placeholder="Nouveau mot de passe">
                 </div>
                 <% if (locals.error) { %>
-                 
-                    <div id="error" style="color: red;" class="center"><%=locals.error%></div>
-                    <% } %>
+
+                <div id="error" style="color: red;" class="center"><%=locals.error%></div>
+                <% } %>
                 <input type="submit" class="btn btn-primary" value="Enregistrer">
             </form>
 
-            <form action="/<%= locals.user?.hasActiveSubscriptions?"revoke-sub":"checkout"%>" method="POST"
-                class="card col-11 col-lg space-between">
+            <form action="/revoke-sub" id="revoke" method="POST" class="card col-11 col-lg space-between">
                 <input type="hidden" name="redirect" value="profile">
-                <h1>Abonnement</h1>
+                <h1>
+                    Abonnement
 
+                </h1>
                 <div class="text center flex-col">
 
-                    <p class="badge badge-<%= locals.user?.hasActiveSubscriptions?"success":"danger"%>">Statut :
+                    <p class="badge badge-<%= locals.user?.hasActiveSubscriptions?"success":"danger"%>">
+                        <%= locals.user?.subName??"Statut"%> :
                     </p>
 
                     <p id="info" class="<%= locals.user?.hasActiveSubscriptions?"active":"inactive"%>">
@@ -66,8 +68,12 @@
 
                 </div>
 
-                <input type="submit" class="btn btn-outline-primary"
-                    value="<%= locals.user?.hasActiveSubscriptions?"Annuler l'abonnement":"Activer un abonnement"%>">
+                <% if (locals.user?.hasActiveSubscriptions) { %>
+
+                <input type="submit" class="btn btn-outline-primary" value="Annuler l'abonnement">
+                <% } else {%>
+                <div></div>
+                <% } %>
             </form>
 
         </div>
@@ -93,7 +99,18 @@
         </svg>
     </div>
 
-   <%- include("sections/alert.ejs") %>
+    <%- include("sections/alert.ejs") %>
+
+    <script>
+        const revoke = document.getElementById("revoke");
+        revoke.addEventListener("submit", e => {
+            e.preventDefault();
+            var ok = confirm("Aucun remboursement ne sera fait. Continuer ?");
+            if(ok){
+                revoke.submit();
+            }
+        })
+    </script>
 
     <script src="/assets/js/jquery-3.3.1.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>

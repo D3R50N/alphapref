@@ -23,14 +23,16 @@ async function authUser(req) {
             customer: stripeId
         })).data;
         const actives = subscriptions.filter(sub => sub.status === "active");
-    
         for (const sub of actives) {
             const sub_items = sub.items.data;
             for (const item of sub_items) {
                 const price = item.price.id;
-                if (price === config.stripePriceID) {
+                if (price === config.stripePriceID || price === config.stripePremiumPriceID) {
                     user.currentSub = sub;
                     user.hasActiveSubscriptions = true;
+                    user.isPremium = price === config.stripePremiumPriceID;
+                    user.subName = price === config.stripePremiumPriceID ? "Plan PREMIUM" : "Plan STANDARD";
+                    
                     const subEndTimestamp = sub.current_period_end * 1000
                     const subStartTimestamp = sub.current_period_start * 1000
                     user.subEnd = {
