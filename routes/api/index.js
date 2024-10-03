@@ -18,6 +18,7 @@ router.use("/user", async (req, res) => {
   for (let attr of hiddenAttr) delete user[attr];
 
   user.isWhite = !! await WhiteUsers.findOne({ email: user.email });
+
   res.json(user);
 });
 

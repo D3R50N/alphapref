@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const whiteUsersSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique:true,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

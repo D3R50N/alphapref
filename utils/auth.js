@@ -15,7 +15,7 @@ async function authUser(req, tk = "") {
         return null;
     }
     try {
-        const decoded = jwt.verify(token, config.jwtSecret);
+        const decoded = await jwt.verify(token, config.jwtSecret);
         req.headers.authorization = token;
         req.user = decoded;
         const user = await User.findById(req.user.userId);
@@ -29,12 +29,13 @@ async function authUser(req, tk = "") {
 
         const actives = subscriptions.filter(sub => sub.status === "active");
 
+        const attributes = { ...user._doc };
+
         for (const sub of actives) {
             const sub_items = sub.items.data;
             for (const item of sub_items) {
                 const price = item.price.id;
                 if (price === config.stripePriceID || price === config.stripePremiumPriceID) {
-                    const attributes = { ...user._doc };
 
                     attributes.currentSub = sub;
                     attributes.hasActiveSubscriptions = true;
@@ -71,11 +72,9 @@ async function authUser(req, tk = "") {
             }
         }
 
-        user.hasActiveSubscriptions = false;
-        await user.save();
-        return user;
+        attributes.hasActiveSubscriptions = false;
+        return{...attributes,model: user};
     } catch (err) {
-        console.log(err);
         return null;
     }
 }
