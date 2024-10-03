@@ -5,8 +5,12 @@ const { getCookie } = require("./cookies");
 const jwt = require("jsonwebtoken");
 const { getDateInfo, strDate, dateFromStamp } = require("./date");
 
-async function authUser(req) {
-    const token = getCookie(req, "_tk");
+async function authUser(req, tk = "") {
+    if (tk == undefined) {
+        return null;
+    }
+    const token = tk.trim() === "" ? getCookie(req, "_tk") : tk;
+
     if (!token) {
         return null;
     }
@@ -22,41 +26,56 @@ async function authUser(req) {
         const subscriptions = (await stripe.subscriptions.list({
             customer: stripeId
         })).data;
+
         const actives = subscriptions.filter(sub => sub.status === "active");
+
         for (const sub of actives) {
             const sub_items = sub.items.data;
             for (const item of sub_items) {
                 const price = item.price.id;
                 if (price === config.stripePriceID || price === config.stripePremiumPriceID) {
-                    user.currentSub = sub;
-                    user.hasActiveSubscriptions = true;
-                    user.isPremium = price === config.stripePremiumPriceID;
-                    user.subName = price === config.stripePremiumPriceID ? "Plan PREMIUM" : "Plan STANDARD";
-                    
+                    const attributes = { ...user._doc };
+
+                    attributes.currentSub = sub;
+                    attributes.hasActiveSubscriptions = true;
+                    attributes.isPremium = price === config.stripePremiumPriceID;
+
+
+
+                    attributes.subName = price === config.stripePremiumPriceID ? "Plan PREMIUM" : "Plan STANDARD";
+
                     const subEndTimestamp = sub.current_period_end * 1000
                     const subStartTimestamp = sub.current_period_start * 1000
-                    user.subEnd = {
+                    attributes.subEnd = {
                         strFull: strDate(subEndTimestamp, true, true),
                         strDate: strDate(subEndTimestamp),
                         strDateWithDay: strDate(subEndTimestamp, true),
                         strDateWithTime: strDate(subEndTimestamp, false, true),
-                        date : dateFromStamp(subEndTimestamp)
+                        date: dateFromStamp(subEndTimestamp)
                     };
-                    user.subStart = {
+                    attributes.subStart = {
                         strFull: strDate(subStartTimestamp, true, true),
                         strDate: strDate(subStartTimestamp),
                         strDateWithDay: strDate(subStartTimestamp, true),
                         strDateWithTime: strDate(subStartTimestamp, false, true),
-                        date : dateFromStamp(subStartTimestamp)
+                        date: dateFromStamp(subStartTimestamp)
                     };
-                    return user;
+
+
+
+                    return {
+                        ...attributes,
+                        model: user,
+                    };
                 }
             }
         }
 
         user.hasActiveSubscriptions = false;
+        await user.save();
         return user;
     } catch (err) {
+        console.log(err);
         return null;
     }
 }

@@ -3,6 +3,7 @@ const User = require("../../models/userModel");
 const config = require("../../config/config");
 const errors = require("../../core/errors");
 const { generateToken } = require("../../services/authService");
+const { setCookie } = require("../../utils/cookies");
 
 exports.login = async (req, res) => {
   try {
@@ -25,7 +26,10 @@ exports.login = async (req, res) => {
     if (!(await user.comparePassword(password))) {
       return errors.json(res, errors.code.PASSWORD_INCORRECT);
     }
+
+    
     const token = generateToken(user);
+    setCookie(res, "_tk", token);
     res.json({ token });
   } catch (err) {
     res

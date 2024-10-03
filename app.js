@@ -21,13 +21,12 @@ app.use(cookieParser(config.jwtSecret));
 app.use(bodyParser.json({ limit: config.parserJsonLimit }));
 app.use(bodyParser.urlencoded({ extended: true, limit: config.parserLimit }));
 
-
 // EJS Template Engine
 app.set("view engine", "ejs");
 
 // Routes
 app.use(ROUTES.BASE, web_routes);
-// app.use(ROUTES.API_BASE, api_routes);
+app.use(ROUTES.API_BASE, api_routes);
 
 // Error Handling Middleware
 app.use(errorHandler.e404);
