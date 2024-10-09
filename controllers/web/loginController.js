@@ -60,6 +60,7 @@ exports.post = async (req, res) => {
     }
     const token = generateToken(user);
 
+
     setCookie(res, "_tk", token);
 
     const redirect = req.query.redirect || ROUTES.BASE;
